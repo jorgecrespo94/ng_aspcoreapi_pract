@@ -79,7 +79,7 @@ namespace DatingApp.API.Data
     }
 
     //return whether or not the username is present on the database
-    public async Task<bool> UserExists(string username, string password)
+    public async Task<bool> UserExists(string username)
     {
       return (await _context.Users.AnyAsync( x=> x.Username == username));
     }
