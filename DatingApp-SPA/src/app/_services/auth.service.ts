@@ -19,9 +19,14 @@ login(model: any) {
       const user = response;
       if (user) {
         localStorage.setItem('token', user.token);
+        localStorage.setItem('username', user.username);
       }
     })
   );
+}
+
+register(model: any) {
+  return this.http.post(this.baseUrl + 'register', model)s;
 }
 
 }

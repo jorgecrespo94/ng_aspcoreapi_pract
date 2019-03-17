@@ -8,16 +8,24 @@ import { AuthService } from '../_services/auth.service';
 })
 export class NavComponent implements OnInit {
   model: any = {};
+  localUsername: any = '';
+
   constructor(private authService: AuthService) { }
 
   ngOnInit() {
+    const username = localStorage.getItem('username');
+    if (username !== null && username !== 'undefined') {
+      this.localUsername = username;
+    } else {
+      this.localUsername = 'User';
+    }
   }
 
   login() {
     this.authService.login(this.model).subscribe(next => {
-      console.log('Logged in successfully');
+      this.localUsername = this.model.username;
     }, error => {
-      console.log('Logged in error');
+      console.log('login error!');
     });
 
   }
@@ -29,7 +37,6 @@ export class NavComponent implements OnInit {
 
   logout() {
     localStorage.removeItem('token');
-    console.log('logged out');
   }
 
 }
