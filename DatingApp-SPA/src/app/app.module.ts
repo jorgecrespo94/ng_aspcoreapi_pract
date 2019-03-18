@@ -6,10 +6,11 @@ import { FormsModule } from '@angular/forms';
 // components
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
-// services
-import { AuthService } from './_services/auth.service';
 import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
+// services
+import { AuthService } from './_services/auth.service';
+import { ErrorInterceptorProvider } from './_services/error.interceptor.service';
 
 @NgModule({
    declarations: [
@@ -24,10 +25,9 @@ import { RegisterComponent } from './register/register.component';
       FormsModule
    ],
    providers: [
-      AuthService
+      AuthService,
+      ErrorInterceptorProvider
    ],
-   bootstrap: [
-      AppComponent
-   ]
+   bootstrap: [AppComponent]
 })
 export class AppModule { }
