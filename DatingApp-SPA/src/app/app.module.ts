@@ -19,6 +19,7 @@ import { ErrorInterceptorProvider } from './_services/error.interceptor.service'
 import { AlertifyService } from './_services/alertify.service';
 // others
 import { appRoutes } from './routes';
+import { AuthGuard } from './_guards/auth.guard';
 
 @NgModule({
    declarations: [
@@ -40,7 +41,8 @@ import { appRoutes } from './routes';
    providers: [
       AuthService,
       ErrorInterceptorProvider,
-      AlertifyService
+      AlertifyService,
+      AuthGuard
    ],
    bootstrap: [
       AppComponent
