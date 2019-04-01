@@ -36,7 +36,10 @@ namespace DatingApp.API
         public void ConfigureServices(IServiceCollection services)//configure everything here
         {
             services.AddDbContext<DataContext>(x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));//from appsettings.json
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+                .AddJsonOptions(opt => {
+                    opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                });
             services.AddCors();
             services.AddTransient<Seed>();
             //services.AddSingleton() //- we create a single instance through out the app
