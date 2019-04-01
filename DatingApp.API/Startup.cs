@@ -42,6 +42,7 @@ namespace DatingApp.API
             //services.AddSingleton() //- we create a single instance through out the app
             //services.AddTransient(); //- created each time the repository is requested.
             services.AddScoped<IAuthRepository, AuthRepository>(); //- one instance for each request 
+            services.AddScoped<IDatingRepository, DatingRepository>();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options => {
                     options.TokenValidationParameters = new TokenValidationParameters
