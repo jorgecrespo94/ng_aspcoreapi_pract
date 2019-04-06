@@ -14,5 +14,5 @@ export interface User {
   introduction?: string;
   interests?: string;
   lookingFor?: string;
-  photo?: Photo[];
+  photos?: Photo[];
 }
