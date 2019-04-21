@@ -3,6 +3,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using DatingApp.API.Data;
 using DatingApp.API.Dtos;
 using DatingApp.API.Models;
@@ -18,8 +19,11 @@ namespace DatingApp.API.Controllers
   {
     private readonly IAuthRepository _repo;
     private readonly IConfiguration _config;
-    public AuthController(IAuthRepository repo, IConfiguration config)
+    private readonly IMapper _mapper;
+
+    public AuthController(IAuthRepository repo, IConfiguration config, IMapper mapper)
     {
+      _mapper = mapper;
       _repo = repo;
       _config = config;
     }
@@ -30,7 +34,7 @@ namespace DatingApp.API.Controllers
       /*
             if(!ModelState.IsValid)
             return BadRequest(ModelState);
-          Or 
+          Or
             [ApiController]
        */
 
@@ -65,7 +69,13 @@ namespace DatingApp.API.Controllers
 
       var token = GetLoginToken(tokenHandler, loginClaims, creds);
 
-      return Ok(new { token = tokenHandler.WriteToken(token) });
+      var user = _mapper.Map<UserForListDto>(userFromRepo);
+
+      return Ok(new 
+      { 
+        token = tokenHandler.WriteToken(token),
+        user = user
+      });
     }
 
     private async Task<User> GetDatabaseUser(UserForLoginDto userForLoginDto)
@@ -82,29 +92,29 @@ namespace DatingApp.API.Controllers
     {
       return new[]
       {
-                new Claim(ClaimTypes.NameIdentifier, userFromRepo.Id.ToString()),
-                new Claim(ClaimTypes.Name, userFromRepo.Username),
+        new Claim(ClaimTypes.NameIdentifier, userFromRepo.Id.ToString()),
+        new Claim(ClaimTypes.Name, userFromRepo.Username),
       };
     }
 
     private SigningCredentials GetSigningCredentials()
     {
-       var key = new SymmetricSecurityKey(Encoding.UTF8
-        .GetBytes(_config.GetSection("AppSettings:Token").Value));//encode key and add to appsetings
-       
-       return new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+      var key = new SymmetricSecurityKey(Encoding.UTF8
+       .GetBytes(_config.GetSection("AppSettings:Token").Value));//encode key and add to appsetings
+
+      return new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
     }
 
     private SecurityToken GetLoginToken(JwtSecurityTokenHandler tokenHandler, Claim[] loginClaims, SigningCredentials creds)
     {
-        var tokenDescriptor = new SecurityTokenDescriptor
-        {
-            Subject = new ClaimsIdentity(claims: loginClaims),
-            Expires = DateTime.Now.AddDays(1),
-            SigningCredentials = creds
-        };
+      var tokenDescriptor = new SecurityTokenDescriptor
+      {
+        Subject = new ClaimsIdentity(claims: loginClaims),
+        Expires = DateTime.Now.AddDays(1),
+        SigningCredentials = creds
+      };
 
-        return tokenHandler.CreateToken(tokenDescriptor);
+      return tokenHandler.CreateToken(tokenDescriptor);
     }
   }//end class
 }//end namespace
