@@ -33,5 +33,9 @@ namespace DatingApp.API.Models
         public string Country { get; set; }
 
         public ICollection<Photo> Photos { get; set; }// a single user can have many photos
+
+        public ICollection<Like> Likers { get; set; }
+
+        public ICollection<Like> Likees { get; set; }
     }
 }
