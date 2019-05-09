@@ -77,25 +77,26 @@ export class UserService {
     let params = new HttpParams();
 
     params = params.append('MessageContainer', messageContainer);
-
+\
     if (page != null && itemsPerPage != null ) {
       params = params.append('pageNumber', page);
       params = params.append('pageSize', itemsPerPage);
     }
 
     return this.http.get<Message[]>(this.baseUrl + 'users/' + id + '/messages', {observe: 'response', params})
-      .map(response => {
+    .pipe(
+      map(response => {
         paginatedResult.result = response.body;
         if (response.headers.get('Pagination') !== null) {
           paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
         }
         return paginatedResult;
-      }
-    )
+      })
+    );
   }
 
   getMessageThread(id: number, recipientId: number) {
-    return this.http.get<Message[]>(this.baseUrl + 'users/' + id + '/messages/thread/'+ recipientId);
+    return this.http.get<Message[]>(this.baseUrl + 'users/' + id + '/messages/thread/' + recipientId);
   }
 
 }

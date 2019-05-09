@@ -146,8 +146,7 @@ namespace DatingApp.API.Data
       messages = messages.OrderByDescending(d => d.MessageSent);
       return await PagedList<Message>.CreateAsync(messages, messageParams.PageNumber, messageParams.PageSize);
     }
-
-    public async Task<IEnumerable<Message>> GetMessageThead(int userId, int recipientId)
+    public async Task<IEnumerable<Message>> GetMessageThread(int userId, int recipientId)
     {
       var messages = await _context.Messages
         .Include(u => u.Sender).ThenInclude(p => p.Photos)
