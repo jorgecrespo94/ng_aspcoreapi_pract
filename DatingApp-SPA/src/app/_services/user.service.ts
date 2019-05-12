@@ -77,7 +77,7 @@ export class UserService {
     let params = new HttpParams();
 
     params = params.append('MessageContainer', messageContainer);
-\
+
     if (page != null && itemsPerPage != null ) {
       params = params.append('pageNumber', page);
       params = params.append('pageSize', itemsPerPage);

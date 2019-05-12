@@ -26,16 +26,16 @@
         <th style="width: 20%"></th>
       </tr>
       <tr *ngFor="let message of messages" [routerLink]="['/members', 
-        messageContainer == 'Outbox' ? message.recipientId : message.senderId]">
+        messageContainer == 'Outbox' ? message.recipientId : message.senderId]" [queryParams]="{tab: 3}">
         <td>{{message.content}}</td>
         <td>
           <div *ngIf="messageContainer != 'Outbox'">
-                <img src={{message?.senderPhotoUrl}} class="img-circle rounded-circle mr-1">
-                <strong>{{message.senderKnownAs}}</strong>
+            <img src={{message?.senderPhotoUrl}} class="img-circle rounded-circle mr-1">
+            <strong>{{message.senderKnownAs}}</strong>
           </div>
           <div *ngIf="messageContainer == 'Outbox'">
-                <img src={{message?.recipientPhotoUrl}} class="img-circle rounded-circle mr-1">
-                <strong>{{message.recipientKnownAs}}</strong>
+            <img src={{message?.recipientPhotoUrl}} class="img-circle rounded-circle mr-1">
+            <strong>{{message.recipientKnownAs}}</strong>
           </div>
         </td>
         <td>{{message.messageSent | timeAgo}}</td>
@@ -50,11 +50,8 @@
 </div>
 
 <div class="d-flex justify-content-center">
-  <pagination [boundaryLinks]="true" 
-                [totalItems]="pagination.totalItems"
-                [itemsPerPage]="pagination.itemsPerPage"
-                [(ngModel)]="pagination.currentPage"
-                (pageChanged)="pageChanged($event)"
-              previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;">
+  <pagination [boundaryLinks]="true" [totalItems]="pagination.totalItems" [itemsPerPage]="pagination.itemsPerPage"
+    [(ngModel)]="pagination.currentPage" (pageChanged)="pageChanged($event)" previousText="&lsaquo;" nextText="&rsaquo;"
+    firstText="&laquo;" lastText="&raquo;">
   </pagination>
 </div>

@@ -12,6 +12,7 @@ export class MessagesResolver implements Resolve<Message[]> {
   pageNumber = 1;
   pageSize = 5;
   messageContainer = 'Unread';
+
   constructor(private userService: UserService, private authService: AuthService,
      private router: Router, private alertify: AlertifyService) {}
 
