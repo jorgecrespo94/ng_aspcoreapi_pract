@@ -93,7 +93,15 @@ namespace DatingApp.API
             //seeder.SeedUsers();
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
             app.UseAuthentication();
-            app.UseMvc();//Middleware - roots request to correct controller
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
+            app.UseMvc(routes => {
+                routes.MapSpaFallbackRoute(
+                    name: "spa-fallback",
+                    defaults: new { controller = "Fallback", action = "Index"}
+                );
+            }
+            );//Middleware - roots request to correct controller
         }
     }
 }
